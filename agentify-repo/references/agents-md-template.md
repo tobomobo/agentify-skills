@@ -14,10 +14,12 @@ One or two sentences: what this file covers (agent-specific context) and
 where general contributor info lives (link CONTRIBUTING.md if it exists —
 never duplicate its content here).
 
-## Repo Structure
+## Project Map
 
-Annotated tree, ONE line per entry, only entries an agent needs oriented on.
-Group related entries with comment headers if the list is long.
+Annotated tree, ONE line per non-obvious entry, only where it materially reduces
+orientation time. Skip this section when the directory names and build files
+already make the shape clear. Group related entries with comment headers if the
+list is long.
 
     src/
       core/        # domain types and validation — start here for data model
@@ -80,7 +82,9 @@ belong.
 
 Only for multi-surface repos (backend + desktop + mobile): one section per
 surface with its non-obvious rules (framework constraints, commands that are
-unsafe for agents to run, sizing/style rules). Single-surface repos skip this.
+unsafe for agents to run, sizing/style rules). Prefer native scoped instruction
+files when the guidance matters only while editing that surface; keep it at the
+root only when cross-surface work needs it. Single-surface repos skip this.
 
 ## See Also
 
@@ -91,12 +95,30 @@ One line per linked doc, saying what question it answers:
 
 ## After writing
 
-Create the symlink and verify it:
+For a new cross-tool repo, create the Claude adapter and verify it:
 
 ```bash
-ln -s AGENTS.md CLAUDE.md && ls -la CLAUDE.md
+test ! -e CLAUDE.md && ln -s AGENTS.md CLAUDE.md
+ls -la CLAUDE.md
 ```
 
-If other agent tools are in play, point them at the same file rather than
-writing parallel content (e.g. `.github/copilot-instructions.md` can be a
-pointer file; Cursor rules can reference AGENTS.md).
+On Windows or anywhere symlinks are impractical, make `CLAUDE.md` contain the
+real import `@AGENTS.md`; an ordinary Markdown link does not load the file.
+Preserve a different established canonical convention when it already works.
+
+For scoped guidance, create compatible native files for every active tool.
+For example, a nested `AGENTS.md` needs a sibling nested `CLAUDE.md` import (or
+an equivalent `.claude/rules/` rule) when Claude must see it. Copilot may need
+`.github/instructions/*.instructions.md` for path-specific IDE or review
+surfaces. Verify actual loading behavior instead of assuming a pointer works.
+
+For recurring procedures, preserve a working canonical skill tree; for a new
+multi-tool repo, `.agents/skills/` is a useful default. Expose individual skills
+through the native directories of tools already used by the repo
+(`.claude/skills/`, `.codex/skills/`, `.github/skills/`) only with adapters that
+those tools actually support.
+
+After writing, verify every relative link and symlink, then search all agent
+entry points for duplicated setup commands and rules. The root file should
+contain only guidance relevant to nearly every task; everything else should be
+scoped or loaded on demand.

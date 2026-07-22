@@ -1,0 +1,57 @@
+{
+  "skill_name": "debloat-agent-docs",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "My AGENTS.md is bloated and contradicts CLAUDE.md. Audit and consolidate them.",
+        "top_k": 3
+      },
+      {
+        "prompt": "Find stale commands and misplaced subsystem guidance in our agent docs.",
+        "top_k": 3
+      },
+      {
+        "prompt": "Standardize our nested agent instructions and duplicated repo skills.",
+        "top_k": 3
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Set up agent documentation for this empty repository.",
+        "owner": "agentify-repo"
+      },
+      {
+        "prompt": "Condense this user-facing README without changing its meaning.",
+        "owner": "copy-editing"
+      }
+    ]
+  },
+  "evals": [
+    {
+      "id": 1,
+      "fixture": "evals/fixtures/cross-tool-repo",
+      "prompt": "Audit the supplied repository for stale, duplicated, contradictory, or poorly scoped agent instructions. Do not change anything.",
+      "expected_output": "A file-quality report and section verdict table with evidence, projected line counts, and no unapproved edits.",
+      "expectations": [
+        "Uses the manifest and CI as static evidence without executing repo-owned commands",
+        "Keeps the security invariant and unresolved incident-born gotcha",
+        "Proposes compatible native scoping for Codex, Claude, and Copilot rather than a nested AGENTS.md alone",
+        "Links or moves duplicated setup material instead of deleting the only copy",
+        "Shows targeted proposed diffs and requests approval before changing files"
+      ]
+    },
+    {
+      "id": 2,
+      "fixture": "evals/fixtures/cross-tool-repo",
+      "prompt": "Consolidate the divergent release skills while preserving support for every configured tool. Stop after the proposal.",
+      "expected_output": "A safe consolidation proposal with one canonical skill source and verified tool adapters.",
+      "expectations": [
+        "Inspects whether files and skill directories are copies, symlinks, or divergent, including bundled resources, before proposing changes",
+        "Preserves the repository's established canonical location when it already works",
+        "Proposes moving content before removing duplicates after approval",
+        "Explains how each resulting adapter will be verified after approval",
+        "Reports current and projected file or line counts without claiming edits occurred"
+      ]
+    }
+  ]
+}

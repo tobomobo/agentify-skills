@@ -1,0 +1,59 @@
+{
+  "skill_name": "agentify-repo",
+  "trigger": {
+    "positive": [
+      {
+        "prompt": "Set up this existing monorepo so Codex and Claude can work in it without duplicating instructions.",
+        "top_k": 3
+      },
+      {
+        "prompt": "Bootstrap agent-facing documentation for this new repository.",
+        "top_k": 3
+      },
+      {
+        "prompt": "Create a lean AGENTS.md and move recurring procedures into repo skills.",
+        "top_k": 3
+      }
+    ],
+    "negative": [
+      {
+        "prompt": "Write an ADR for the database choice we just made.",
+        "owner": "documentation-and-adrs"
+      },
+      {
+        "prompt": "Review this pull request for correctness regressions.",
+        "owner": "code-review"
+      }
+    ]
+  },
+  "evals": [
+    {
+      "id": 1,
+      "fixture": "evals/fixtures/cross-tool-repo",
+      "prompt": "Retrofit the supplied existing repository for agentic coding across Codex, Claude, and Copilot. Inspect it and present the plan before changing anything.",
+      "expected_output": "An evidence-based inventory and proposed documentation plan presented before any writes.",
+      "expectations": [
+        "Enumerates the root, scoped, rules, workflow, ADR, copied skill files, bundled skill resources, and directory-symlink adapter in the fixture without following links outside the repo",
+        "Uses static CI and manifest evidence without executing repo-owned commands before approval",
+        "Matches the existing ADR convention instead of imposing a new location or template",
+        "Resolves the divergent skill copies and instruction files without assuming plain pointer files will load",
+        "Provides compatible scoped guidance for every requested tool instead of moving rules only to nested AGENTS.md",
+        "Shows current and projected line counts and requests confirmation before writing"
+      ]
+    },
+    {
+      "id": 2,
+      "fixture": "evals/fixtures/readme-only",
+      "prompt": "Set up the supplied README-only repository for agentic coding. Application scaffolding is not authorized.",
+      "expected_output": "A minimal documentation plan that does not invent commands, code, architecture, or empty documents.",
+      "expectations": [
+        "Reads and uses the product direction already present in README.md before interviewing the user",
+        "Asks only for information that cannot be derived from the repository",
+        "Creates no application scaffold unless it is explicitly included in the approved plan",
+        "Includes only documents with substantive content",
+        "Proposes compatible native root instructions only for the tools in use",
+        "Does not fabricate retrospective decisions or gotchas"
+      ]
+    }
+  ]
+}
