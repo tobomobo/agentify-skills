@@ -18,11 +18,11 @@
     "negative": [
       {
         "prompt": "Set up agent documentation for this empty repository.",
-        "owner": "agentify-repo"
+        "reason": "Initialization belongs to agentify-repo; there is nothing to audit yet."
       },
       {
         "prompt": "Condense this user-facing README without changing its meaning.",
-        "owner": "copy-editing"
+        "reason": "Copy-editing human-facing prose, not auditing agent instruction files."
       }
     ]
   },

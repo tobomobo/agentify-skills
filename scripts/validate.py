@@ -14,6 +14,22 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILLS = ("agentify-repo", "debloat-agent-docs")
 LINK_RE = re.compile(r"\[[^]]*]\(([^)]+)\)")
 KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):(?:\s|$)")
+REQUIRED_KEYS = {"name", "description"}
+# Optional fields permitted by the skill spec and common harnesses; unknown
+# keys still fail so typos ("descripton") are caught.
+OPTIONAL_KEYS = {
+    "version",
+    "license",
+    "compatibility",
+    "allowed-tools",
+    "disallowed-tools",
+    "metadata",
+    "model",
+    "context",
+    "arguments",
+    "disable-model-invocation",
+    "user-invocable",
+}
 
 
 def validate_skill(skill_name: str, root: Path = ROOT) -> list[str]:
@@ -38,8 +54,10 @@ def validate_skill(skill_name: str, root: Path = ROOT) -> list[str]:
 
     if len(keys) != len(set(keys)):
         errors.append(f"{path}: duplicate frontmatter keys are not allowed")
-    if set(keys) != {"name", "description"}:
-        errors.append(f"{path}: frontmatter keys must be only name and description, got {keys}")
+    if missing := REQUIRED_KEYS - set(keys):
+        errors.append(f"{path}: missing required frontmatter keys {sorted(missing)}")
+    if unknown := set(keys) - REQUIRED_KEYS - OPTIONAL_KEYS:
+        errors.append(f"{path}: unknown frontmatter keys {sorted(unknown)}")
     if fields.get("name") != skill_name:
         errors.append(f"{path}: name must match its directory")
     description = fields.get("description", "")

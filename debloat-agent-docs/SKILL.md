@@ -26,17 +26,15 @@ the text alone. So this skill is an audit with evidence, not a rewrite.
 Find everything agents read and measure it:
 
 ```bash
+# Agent instruction surfaces — root, scoped, rules, skills — plus any symlink
+# adapters. The name list covers common tools; extend it for whatever the repo
+# actually uses rather than treating it as exhaustive.
 find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
-  \( -type f -o -type l -o -type d \) \
-  \( -name AGENTS.md -o -name CLAUDE.md -o -name .claude.md \
-     -o -name .cursorrules -o -name copilot-instructions.md \
-     -o -path '*/.claude/rules/*.md' \
-     -o -path '*/.github/instructions/*.instructions.md' \
-     -o -path '*/.cursor/rules/*' \
-     -o -path '*/.agents/skills/*' \
-     -o -path '*/.claude/skills/*' \
-     -o -path '*/.codex/skills/*' \
-     -o -path '*/.github/skills/*' \) -print
+  \( -type l -o -name 'AGENTS.md' -o -name 'CLAUDE.md' -o -name 'SKILL.md' \
+     -o -name '.cursorrules' -o -name 'copilot-instructions.md' \
+     -o -name '*.instructions.md' -o -path '*/.claude/rules/*' \
+     -o -path '*/.cursor/rules/*' \) -print
+# Markdown sizes (symlinks not followed), largest first
 find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
   -type f -name '*.md' -exec wc -l -- {} + | sort -rn
 ```
@@ -144,10 +142,9 @@ gotchas are never cut on your own judgment — only with explicit user
 confirmation.
 
 Bundle the consolidation proposal here too, if applicable. Preserve an
-established canonical instruction file and skill location when they work. For
-a new cross-tool consolidation, default to `AGENTS.md` plus verified native
-adapters; Claude can use a symlink or `@AGENTS.md` import. Do not claim that a
-plain pointer file loads shared instructions.
+established canonical instruction file and skill location when they work; for
+a new cross-tool consolidation, default to `AGENTS.md` plus native adapters
+(for Claude, a symlink or `@AGENTS.md` import).
 
 Present the table in chat — it's a conversation artifact, not a deliverable.
 Don't commit an audit file to the repo unless the user asks to keep the

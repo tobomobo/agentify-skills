@@ -18,11 +18,11 @@
     "negative": [
       {
         "prompt": "Write an ADR for the database choice we just made.",
-        "owner": "documentation-and-adrs"
+        "reason": "Writing a single decision record is not repository documentation setup."
       },
       {
         "prompt": "Review this pull request for correctness regressions.",
-        "owner": "code-review"
+        "reason": "Code review, not agent documentation work."
       }
     ]
   },

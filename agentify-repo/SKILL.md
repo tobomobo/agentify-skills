@@ -62,19 +62,15 @@ Look at the repository before asking anything:
 Build a picture of what exists before proposing anything:
 
 ```bash
-# Agent-facing files across tools and directory scopes
+# Agent instruction surfaces — root, scoped, rules, skills — plus any symlink
+# adapters. The name list covers common tools; extend it for whatever the repo
+# actually uses rather than treating it as exhaustive.
 find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
-  \( -type f -o -type l -o -type d \) \
-  \( -name AGENTS.md -o -name CLAUDE.md -o -name .claude.md \
-     -o -name .cursorrules -o -name copilot-instructions.md \
-     -o -path '*/.claude/rules/*.md' \
-     -o -path '*/.github/instructions/*.instructions.md' \
-     -o -path '*/.cursor/rules/*' \
-     -o -path '*/.agents/skills/*' \
-     -o -path '*/.claude/skills/*' \
-     -o -path '*/.codex/skills/*' \
-     -o -path '*/.github/skills/*' \) -print
-# Markdown sizes without following symlinks or relying on shell globs
+  \( -type l -o -name 'AGENTS.md' -o -name 'CLAUDE.md' -o -name 'SKILL.md' \
+     -o -name '.cursorrules' -o -name 'copilot-instructions.md' \
+     -o -name '*.instructions.md' -o -path '*/.claude/rules/*' \
+     -o -path '*/.cursor/rules/*' \) -print
+# Markdown sizes (symlinks not followed)
 find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
   -type f -name '*.md' -exec wc -l -- {} +
 ```
@@ -175,14 +171,13 @@ never restore a template over an evolved document.
   surface cannot consume the canonical file, keep the smallest compatible
   native instructions and flag the unavoidable duplication for verification.
   Likewise, preserve a working skill location; for a new multi-tool repo,
-  `.agents/skills/` is a useful default with verified native adapters.
-- **Scope conditional guidance structurally.** Keep only guidance relevant to
-  nearly every task in the root file. Put subtree-specific rules in the native
-  scoped format for each tool in use: for example, nested `AGENTS.md` plus a
-  sibling nested `CLAUDE.md` import for Claude, or `.claude/rules/` and
-  `.github/instructions/*.instructions.md` when those are the established
-  conventions. Put recurring procedures in skills and link deep references.
-  Do not add Claude-specific weighting markup to a cross-tool canonical file.
+  `.agents/skills/` is a useful default.
+- **Scope conditional guidance structurally** (the progressive-disclosure rule
+  above): subtree-specific rules go in each tool's native scoped format — e.g.
+  nested `AGENTS.md` (plus a sibling `CLAUDE.md` import for Claude),
+  `.claude/rules/`, or `.github/instructions/*.instructions.md` — recurring
+  procedures in skills, deep references linked. Don't add Claude-specific
+  weighting markup to a cross-tool canonical file.
 - Other docs: follow the catalog. Write them for their primary reader
   (CONTRIBUTING/README for humans, AGENTS.md for agents) and cross-link
   instead of repeating.

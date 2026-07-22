@@ -24,6 +24,22 @@ class ValidateSkillTest(unittest.TestCase):
         errors = self.validate("name: sample-extra\ndescription: A useful skill.")
         self.assertTrue(any("name must match" in error for error in errors))
 
+    def test_accepts_known_optional_keys(self):
+        errors = self.validate(
+            "name: sample\ndescription: A useful skill.\nversion: 1\nlicense: MIT"
+        )
+        self.assertEqual([], errors)
+
+    def test_rejects_unknown_keys(self):
+        errors = self.validate(
+            "name: sample\ndescription: A useful skill.\ndescripton: typo"
+        )
+        self.assertTrue(any("unknown frontmatter keys" in error for error in errors))
+
+    def test_rejects_missing_description(self):
+        errors = self.validate("name: sample")
+        self.assertTrue(any("missing required" in error for error in errors))
+
     def test_rejects_duplicate_keys(self):
         errors = self.validate(
             "name: sample\nname: sample\ndescription: A useful skill."
