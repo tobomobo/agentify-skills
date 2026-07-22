@@ -15,14 +15,36 @@ content."
 - **Anti-bloat**: the README is not the manual. Feature tours, full CLI
   references, and architecture essays go elsewhere.
 
-### AGENTS.md (+ CLAUDE.md symlink)
+### Canonical root agent instructions
 
 - **Reader**: agents, loaded every session.
 - **Contains**: see `agents-md-template.md`. Only the agent-specific delta.
+  Preserve an established canonical `CLAUDE.md` or other working convention;
+  for a new cross-tool repo, default to `AGENTS.md`.
 - **Skip when**: never for a repo agents work in — this is the point of the
   exercise.
 - **Anti-bloat**: budget ~300 lines, hard ceiling 500. Everything beyond the
   delta gets linked, not inlined.
+- **Scoping rule**: keep only guidance relevant to nearly every task at the
+  root. Put directory-specific rules in native scoped files for the tools in
+  use, recurring procedures in skills, and deep explanation in linked docs.
+- **Tool adapters**: use native imports or symlinks only where the consuming
+  tool supports them. Claude accepts a symlink or `@AGENTS.md` import. A plain
+  Markdown pointer is not an import; when a tool surface cannot load the
+  canonical file, keep the smallest compatible native instructions and verify
+  them for drift.
+
+### Scoped agent instructions
+
+- **Reader**: agents working inside one subsystem of a larger repository.
+- **Contains**: rules that apply only to that subtree or file pattern: its
+  commands, invariants, generated files, or ownership boundaries. Use the
+  formats required by active tools, such as nested `AGENTS.md`, nested
+  `CLAUDE.md` imports or `.claude/rules/`, and
+  `.github/instructions/*.instructions.md`.
+- **Earned when**: including the guidance at the root would burden unrelated
+  tasks, or the subtree is independently buildable and has a distinct workflow.
+- **Skip when**: it would repeat root guidance or merely describe the directory.
 
 ## Earned documents
 
@@ -66,6 +88,19 @@ content."
 - **Anti-bloat**: describe the shape, not every file. If it restates what
   `ls` shows, delete it.
 
+### Architecture decision records
+
+- **Reader**: humans and agents who need to understand why an expensive-to-
+  reverse decision was made.
+- **Contains**: context, decision, alternatives, and consequences. Match the
+  repo's existing location, numbering, and headings before using a default such
+  as `docs/decisions/`.
+- **Earned when**: a real architectural decision is being made or changed.
+- **Skip when**: reconstructing old rationale would require invention, the
+  decision is cheap to reverse, or the code already makes the choice obvious.
+- **Lifecycle**: preserve superseded decisions and link the replacement; do
+  not rewrite history by deleting old records.
+
 ### TESTING.md
 
 - **Reader**: agents and humans running or writing tests beyond the basics.
@@ -101,7 +136,7 @@ content."
   *moves to* when core docs exceed budget.
 - **Earned when**: the first real deep-dive exists.
 
-### .claude/skills/ (repo-scoped skills)
+### Repo-scoped skills
 
 - **Reader**: agents, loaded only when triggered.
 - **Contains**: repeatable multi-step procedures with exact commands —
@@ -109,6 +144,12 @@ content."
 - **Earned when**: a procedure is (a) multi-step, (b) recurring, and (c) would
   otherwise bloat AGENTS.md. This is the primary pressure-release valve for
   the always-loaded file.
+- **Location**: preserve an established working location. For a new multi-tool
+  repo, `.agents/skills/` is a useful canonical default; expose individual
+  skills through `.claude/skills/`, `.codex/skills/`, or `.github/skills/` only
+  for tools actually used, and verify that symlinks or adapters are supported.
+  If compatible adapters are impossible, keep the smallest necessary copies
+  and include them in drift checks.
 
 ### GOVERNANCE.md / CODE_OF_CONDUCT.md
 
