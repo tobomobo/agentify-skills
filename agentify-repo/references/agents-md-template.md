@@ -1,0 +1,102 @@
+# AGENTS.md Template
+
+The section skeleton below is a menu, not a mandate — include a section only
+when there's real content for it. Order matters: orientation first, rules
+last, so an agent skimming top-down gets the map before the law.
+
+Remember the test for every line: *could an agent derive this from the code in
+reasonable time?* If yes, cut it.
+
+```markdown
+# AGENTS.md — AI Agent Contributor Guide
+
+One or two sentences: what this file covers (agent-specific context) and
+where general contributor info lives (link CONTRIBUTING.md if it exists —
+never duplicate its content here).
+
+## Repo Structure
+
+Annotated tree, ONE line per entry, only entries an agent needs oriented on.
+Group related entries with comment headers if the list is long.
+
+    src/
+      core/        # domain types and validation — start here for data model
+      api/         # HTTP surface — thin, delegates to core
+    migrations/    # SQL, auto-applied on startup
+    scripts/       # dev tooling
+
+## Getting Started
+
+The 3–5 commands from clean checkout to running system. Prefer task-runner
+targets (`just setup`) over raw command pipelines. The commands themselves
+live in README or CONTRIBUTING (one fact, one place — this holds even when
+you're writing all the files at once); here, link them and show only the
+agent-specific delta (e.g. env activation agents tend to miss). If there is
+no delta, this section is just the link.
+
+## Quality Gates
+
+The exact commands that must pass before a PR, and when to run which:
+
+    just ci      # before every PR: fmt + lint + unit tests + build
+    just test    # integration suite — needed if you touched X or Y (requires Postgres)
+
+Plus hard rules that gates don't catch mechanically — both code rules and
+operational constraints from the interview:
+- e.g. "no new unwrap() in production paths", "public API needs doc comments"
+- e.g. "never run commands against the real database file", "agents must not
+  run `flutter run` / deploys"
+
+## Key Patterns
+
+Conventions an agent cannot infer from reading one file — the repo's grain:
+- Where new features go ("model it as an event kind, not a new endpoint")
+- Cross-cutting invariants ("all queries must scope to the tenant tag")
+- Where each kind of change belongs ("agent-facing features go in the CLI
+  crate first")
+
+3–8 patterns. Each states the rule AND the why in a sentence or two — agents
+extrapolate correctly from reasons, and blindly from bare rules.
+
+## Common Gotchas
+
+Numbered list of empirically discovered traps — things that actually cost an
+agent or human real time in this repo:
+
+1. **Kind 39000 for channel metadata, not 41** — 41 looks right but is unused.
+2. **Queries must specify `kinds`** — omitting them triggers a 403.
+
+Rules for this section: only add entries born from real incidents (never
+speculative "be careful with..."); state the trap, the symptom, and the
+correct move; prune entries when the underlying sharp edge is fixed. This
+section is append-mostly — tell the user it should grow over time as agents
+hit walls, and that adding to it is the repo's cheapest productivity
+investment. On a fresh repo with no incidents yet, keep the section as a
+two-line stub stating exactly that contract — the one allowed exception to
+"docs are earned", because it teaches future sessions where hard-won lessons
+belong.
+
+## <Surface-specific sections>
+
+Only for multi-surface repos (backend + desktop + mobile): one section per
+surface with its non-obvious rules (framework constraints, commands that are
+unsafe for agents to run, sizing/style rules). Single-surface repos skip this.
+
+## See Also
+
+One line per linked doc, saying what question it answers:
+- [CONTRIBUTING.md](CONTRIBUTING.md) — setup, style, PR process
+- [ARCHITECTURE.md](ARCHITECTURE.md) — system design
+```
+
+## After writing
+
+Create the symlink and verify it:
+
+```bash
+ln -s AGENTS.md CLAUDE.md && ls -la CLAUDE.md
+```
+
+If other agent tools are in play, point them at the same file rather than
+writing parallel content (e.g. `.github/copilot-instructions.md` can be a
+pointer file; Cursor rules can reference AGENTS.md).
