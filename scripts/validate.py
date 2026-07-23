@@ -98,22 +98,35 @@ def validate_links() -> list[str]:
     return errors
 
 
-def validate_evals(skill_name: str) -> list[str]:
+def validate_evals(skill_name: str, root: Path = ROOT) -> list[str]:
     errors: list[str] = []
-    path = ROOT / "evals" / "cases" / f"{skill_name}.json"
+    path = root / "evals" / "cases" / f"{skill_name}.json"
     try:
         data = json.loads(path.read_text())
     except (OSError, json.JSONDecodeError) as exc:
         return [f"{path}: {exc}"]
 
+    # Malformed input must produce error messages, never tracebacks — a key
+    # present with null (or the wrong type) bypasses dict.get defaults.
+    if not isinstance(data, dict):
+        return [f"{path}: manifest must be a JSON object"]
+
     if data.get("skill_name") != skill_name:
         errors.append(f"{path}: skill_name must be {skill_name}")
-    trigger = data.get("trigger", {})
+    trigger = data.get("trigger")
+    if not isinstance(trigger, dict):
+        trigger = {}
     if not trigger.get("positive") or not trigger.get("negative"):
         errors.append(f"{path}: positive and negative trigger cases are required")
-    if not data.get("evals"):
+    evals = data.get("evals")
+    if not isinstance(evals, list):
+        evals = []
+    if not evals:
         errors.append(f"{path}: at least one behavioral eval is required")
-    for case in data.get("evals", []):
+    for index, case in enumerate(evals):
+        if not isinstance(case, dict):
+            errors.append(f"{path}: eval at index {index} must be a JSON object")
+            continue
         missing = {
             "id",
             "fixture",
@@ -126,7 +139,7 @@ def validate_evals(skill_name: str) -> list[str]:
         if not case.get("expectations"):
             errors.append(f"{path}: eval {case.get('id', '?')} needs expectations")
         fixture = case.get("fixture")
-        fixture_path = ROOT / fixture if isinstance(fixture, str) else None
+        fixture_path = root / fixture if isinstance(fixture, str) else None
         if not fixture_path or not fixture_path.is_dir():
             errors.append(f"{path}: eval {case.get('id', '?')} fixture is missing")
         elif not any(item.is_file() for item in fixture_path.rglob("*")):
