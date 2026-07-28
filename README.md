@@ -31,6 +31,11 @@ skills encode a few principles:
 - Gotchas come from real incidents, never speculation.
 - Recurring procedures become skills, not sections.
 - Shared guidance has one canonical source with thin adapters for each tool.
+- Rules state intent and reasons; capable models are trusted to extrapolate.
+  MUST/NEVER is reserved for security and irreversible operations.
+- Parallel agents are the default: working agreements (small, frequent,
+  reviewable commits) keep the work mergeable; personal taste stays in
+  personal config, not the repo file.
 
 ## Contents
 
