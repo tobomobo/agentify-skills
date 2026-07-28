@@ -23,8 +23,8 @@ content."
   for a new cross-tool repo, default to `AGENTS.md`.
 - **Skip when**: never for a repo agents work in — this is the point of the
   exercise.
-- **Anti-bloat**: budget ~300 lines, hard ceiling 500. Everything beyond the
-  delta gets linked, not inlined.
+- **Anti-bloat**: aim under ~150 lines; past ~300, move content out.
+  Everything beyond the delta gets linked, not inlined.
 - **Scoping rule**: keep only guidance relevant to nearly every task at the
   root. Put directory-specific rules in native scoped files for the tools in
   use, recurring procedures in skills, and deep explanation in linked docs.
@@ -68,8 +68,9 @@ content."
 ### CONTRIBUTING.md
 
 - **Reader**: humans (and agents, for setup/style/PR mechanics).
-- **Contains**: environment setup, code style, test commands, PR process, "how
-  to add an X" recipes for the repo's common extension points.
+- **Contains**: environment setup, code style, test commands, PR process,
+  commit/branch conventions for parallel work, "how to add an X" recipes for
+  the repo's common extension points.
 - **Earned when**: more than one contributor, or a human/agent split where
   AGENTS.md would otherwise fill up with general contributor info. AGENTS.md
   then links here instead of duplicating setup instructions.

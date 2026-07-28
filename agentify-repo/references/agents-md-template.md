@@ -7,6 +7,15 @@ last, so an agent skimming top-down gets the map before the law.
 Remember the test for every line: *could an agent derive this from the code in
 reasonable time?* If yes, cut it.
 
+Writing rules throughout: state each rule with its reason — capable models
+extrapolate correctly from a why and blindly from a bare rule. Reserve
+MUST/NEVER for security boundaries and irreversible operations. Never
+include generic best practices a capable model already follows.
+
+The repo file holds team agreements only. Personal taste — package-manager
+preference, model choices, tone — belongs in each contributor's user-level
+global config, where it doesn't bind everyone else's agents.
+
 ```markdown
 # AGENTS.md — AI Agent Contributor Guide
 
@@ -77,6 +86,21 @@ investment. On a fresh repo with no incidents yet, keep the section as a
 two-line stub stating exactly that contract — the one allowed exception to
 "docs are earned", because it teaches future sessions where hard-won lessons
 belong.
+
+## Working Agreements
+
+Parallel agents are the norm — even one human runs several at once. The
+contract that keeps parallel work reviewable and mergeable:
+
+- Commit small and often: each commit self-contained, passing the gates, and
+  reviewable on its own; the message says why, not just what.
+- Branch/PR conventions: how work is claimed and merged (e.g. one branch per
+  task, PRs reference their issue, never rewrite shared history).
+- Coordination rules that prevent agents stepping on each other (e.g. "check
+  for an open PR touching the same module before starting").
+
+Keep it to what was actually agreed — skip the section only when the repo
+genuinely has no conventions beyond the quality gates.
 
 ## <Surface-specific sections>
 
