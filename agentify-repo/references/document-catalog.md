@@ -8,7 +8,11 @@ content."
 
 ### README.md
 
-- **Reader**: humans first (GitHub landing page), agents second.
+- **Reader**: humans and agents alike — the GitHub landing page for people,
+  and the same orientation for agents, including ones evaluating the repo
+  from outside to decide whether to depend on it or pull code from it.
+- **Answers**: *what is this and why would I use it* — the counterpart to the
+  agent file's *how do I change it*.
 - **Contains**: what the project is in two sentences, quick start (the 3–5
   commands to get running), pointer to CONTRIBUTING/AGENTS for more.
 - **Skip when**: never — every repo gets one.
@@ -18,6 +22,8 @@ content."
 ### Canonical root agent instructions
 
 - **Reader**: agents, loaded every session.
+- **Answers**: *how do I change code in this repo* — never *what the project
+  is*; that lives in README, which agents read on demand.
 - **Contains**: see `agents-md-template.md`. Only the agent-specific delta.
   Preserve an established canonical `CLAUDE.md` or other working convention;
   for a new cross-tool repo, default to `AGENTS.md`.

@@ -36,6 +36,20 @@ list is long.
     migrations/    # SQL, auto-applied on startup
     scripts/       # dev tooling
 
+## Glossary
+
+Only when the repo's domain terms are ambiguous or overloaded — especially
+meta-projects where words like "user" or "agent" mean different things in
+different sentences (the person using the product vs. the person directing
+you vs. an agent the product itself runs). One line per term, defined
+operationally:
+
+    - **user** — the person using the product; NOT the maintainer directing you
+    - **provider** — the runtime the product talks to (Claude, Codex, ...)
+
+Keep it to the terms that have actually caused confusion or that the code
+uses inconsistently. Skip when the domain vocabulary is unambiguous.
+
 ## Getting Started
 
 The 3–5 commands from clean checkout to running system. Prefer task-runner
@@ -57,6 +71,11 @@ operational constraints from the interview:
 - e.g. "no new unwrap() in production paths", "public API needs doc comments"
 - e.g. "never run commands against the real database file", "agents must not
   run `flutter run` / deploys"
+
+And the project's non-negotiables: the few things never to compromise on,
+even when a task would be easier without them — each with its reason (e.g.
+"never send user data off-device — local-first is the product"). This is
+where MUST/NEVER belongs; keep the list short so it stays absolute.
 
 ## Key Patterns
 
@@ -95,7 +114,10 @@ contract that keeps parallel work reviewable and mergeable:
 - Commit small and often: each commit self-contained, passing the gates, and
   reviewable on its own; the message says why, not just what.
 - Branch/PR conventions: how work is claimed and merged (e.g. one branch per
-  task, PRs reference their issue, never rewrite shared history).
+  task, PRs reference their issue, never rewrite shared history). One concern
+  per PR — if the description needs an "also", split it.
+- Evidence expectations, if the team has them: e.g. UI changes carry
+  before/after screenshots, motion changes carry video.
 - Coordination rules that prevent agents stepping on each other (e.g. "check
   for an open PR touching the same module before starting").
 
@@ -109,6 +131,11 @@ surface with its non-obvious rules (framework constraints, commands that are
 unsafe for agents to run, sizing/style rules). Prefer native scoped instruction
 files when the guidance matters only while editing that surface; keep it at the
 root only when cross-surface work needs it. Single-surface repos skip this.
+
+For multi-surface repos, also add a short "hit every surface" checklist: when
+shared code changes, which surfaces/integrations must be verified (each
+client, each provider adapter, the wire contract). Agents reliably test the
+surface they edited and reliably forget the siblings.
 
 ## See Also
 

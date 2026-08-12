@@ -88,7 +88,8 @@ available). Always cover, unless already answered:
   review), and how parallel work stays reviewable: branch/PR conventions,
   commit cadence, review flow. Multiple agents working at once is the
   default, whether one human runs them or several.
-- **Quality gates** — what must pass before a change is acceptable.
+- **Quality gates** — what must pass before a change is acceptable, and the
+  non-negotiables: the few things the project never compromises on.
 
 Ask about sensitive areas (code agents must not touch, commands they must
 never run), security posture, and release process only when signals for them
@@ -131,8 +132,10 @@ a template over an evolved document.
   Makefile is the safe default) and just enough code (the ecosystem's init)
   that the documented gates genuinely pass — if the approved plan included
   it. Otherwise document only what exists.
-- Write each doc for its primary reader (README/CONTRIBUTING for humans,
-  AGENTS.md for agents) and cross-link instead of repeating.
+- Write each doc for the question it answers: README says *what this is and
+  why you'd use it* (read by humans and by agents evaluating the repo);
+  AGENTS.md says *how to change it*. Cross-link instead of repeating — and
+  don't let "what the project is" leak into the always-loaded agent file.
 - Record real decisions per the repo's ADR convention; never invent
   retrospective rationale the user did not provide.
 
