@@ -153,6 +153,10 @@ contract that keeps parallel work reviewable and mergeable:
 - Branch/PR conventions: how work is claimed and merged (e.g. one branch per
   task, PRs reference their issue, never rewrite shared history). One concern
   per PR — if the description needs an "also", split it.
+- Start from current main and rebase your own branch before opening a PR.
+  Parallel agents diverge, and a change built on a stale base reintroduces
+  fixed bugs or conflicts at merge. Skip when the harness gives each task a
+  fresh worktree or sandbox — the base is already current there.
 - Evidence expectations, if the team has them: e.g. UI changes carry
   before/after screenshots, motion changes carry video.
 - Coordination rules that prevent agents stepping on each other (e.g. "check

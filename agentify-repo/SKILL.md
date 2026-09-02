@@ -100,8 +100,9 @@ available). Always cover, unless already answered:
   and the one that most changes their judgment calls.
 - **Working agreements** — what agents will do (features, fixes, docs,
   review), and how parallel work stays reviewable: branch/PR conventions,
-  commit cadence, review flow. Multiple agents working at once is the
-  default, whether one human runs them or several.
+  commit cadence, review flow, and how agents stay on a current base (fetch
+  and rebase, or fresh worktrees per task). Multiple agents working at once
+  is the default, whether one human runs them or several.
 - **Quality gates** — what must pass before a change is acceptable, which
   gate model applies (full gate before every PR, or smallest proof locally
   with CI owning the suite), and the non-negotiables: the few things the
