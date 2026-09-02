@@ -28,7 +28,7 @@ so it describes the repo and its reasons, never the reader's quirks:
 
 Sizing: a simple repo lands around 30–60 lines with four sections (intro,
 quality gates, gotchas stub, see also). A complex multi-surface repo lands
-near 150. Past that, move content out rather than compressing.
+near 150. Past ~300, move content out rather than compressing.
 
 The repo file holds team agreements only. Personal taste — package-manager
 preference, model choices, tone — belongs in each contributor's user-level

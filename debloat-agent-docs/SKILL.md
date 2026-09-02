@@ -60,8 +60,7 @@ find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
   describes exist right now?
 
 Note each file's concrete problems as you go — stale commands, duplication,
-misplaced scope, padding — with evidence. A numeric grade is optional and
-must not become the goal.
+misplaced scope, padding — with evidence.
 
 ## Step 2: Classify every section
 
