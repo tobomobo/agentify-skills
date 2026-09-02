@@ -34,7 +34,9 @@ read code well); it is a bloated file that dilutes the few rules that matter.
    exhaustive rules — capable models extrapolate correctly from a reason and
    blindly from a bare rule. Reserve MUST/NEVER for security boundaries and
    irreversible operations. Never write down generic best practices a capable
-   model already follows.
+   model already follows. Write for the model after next: the file outlives
+   whatever reads it today, so it describes the repo and its reasons, never
+   the reader's quirks.
 5. **Progressive disclosure.** Root file: only guidance relevant to nearly
    every task. Directory-specific guidance: native scoped instruction files.
    Repeatable procedures: repo skills. Deep reference: linked docs.
@@ -73,8 +75,20 @@ find . \( -path './.git' -o -path '*/node_modules' \) -prune -o \
   targets, or binaries before the user approves the plan. `--help` and
   dry-run flags are not security boundaries.
 
-If existing agent docs are large or duplicative, the job may be as much
-slimming as adding — consider the `debloat-agent-docs` skill for that part.
+On a repo that already has agent instructions, audit them before the
+interview. This is the maintenance path and should take minutes, not an
+afternoon:
+
+- Every link, path, and command target still resolves.
+- Model-specific language, workarounds for a past model's weakness, and
+  time-bound facts (counts, "currently", versions the repo doesn't pin).
+- Gotchas whose origin issue is closed or whose sharp edge is gone.
+- Duplication with README/CONTRIBUTING and surface lists that no longer
+  match the tree.
+
+Findings go into the plan as targeted diffs. If existing agent docs are
+large or duplicative, the job may be as much slimming as adding — consider
+the `debloat-agent-docs` skill for that part.
 
 ## Step 2: Interview
 
@@ -88,8 +102,10 @@ available). Always cover, unless already answered:
   review), and how parallel work stays reviewable: branch/PR conventions,
   commit cadence, review flow. Multiple agents working at once is the
   default, whether one human runs them or several.
-- **Quality gates** — what must pass before a change is acceptable, and the
-  non-negotiables: the few things the project never compromises on.
+- **Quality gates** — what must pass before a change is acceptable, which
+  gate model applies (full gate before every PR, or smallest proof locally
+  with CI owning the suite), and the non-negotiables: the few things the
+  project never compromises on.
 
 Ask about sensitive areas (code agents must not touch, commands they must
 never run), security posture, and release process only when signals for them
