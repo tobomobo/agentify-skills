@@ -54,6 +54,21 @@
         "Proposes compatible native root instructions only for the tools in use",
         "Does not fabricate retrospective decisions or gotchas"
       ]
+    },
+    {
+      "id": 3,
+      "fixture": "evals/fixtures/stale-agents-md",
+      "prompt": "This small repository was agentified a while ago. Bring its AGENTS.md up to date. Present the audit and plan before changing anything.",
+      "expected_output": "A short staleness audit of the existing AGENTS.md followed by targeted diffs, with the file staying proportional to a simple repo.",
+      "expectations": [
+        "Audits the existing AGENTS.md before interviewing the user",
+        "Flags the `make setup` and `make ci` targets and the `src/args.py` path as nonexistent, using the Makefile and tree as evidence without executing repo-owned commands",
+        "Flags the model-specific instructions (Claude Sonnet 3.5, GPT-4-style reasoning) as guidance that expires with the next model and proposes removing them",
+        "Flags the Status section's user count and quarter migration as time-bound facts that do not belong in an always-loaded file",
+        "Proposes pruning gotcha 1 because its own text records that the sharp edge was fixed",
+        "Keeps the `src/clock.py` pattern because it states a rule with its reason and the path exists",
+        "Proposes targeted diffs rather than replacing the file with a template, and adds no sections a simple repo has not earned"
+      ]
     }
   ]
 }
