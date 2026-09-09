@@ -32,11 +32,12 @@ read code well); it is a bloated file that dilutes the few rules that matter.
    content for it, never as an empty placeholder.
 4. **Trust the model's judgment.** Write guidance as intent plus reason, not
    exhaustive rules — capable models extrapolate correctly from a reason and
-   blindly from a bare rule. Reserve MUST/NEVER for security boundaries and
-   irreversible operations. Never write down generic best practices a capable
-   model already follows. Write for the model after next: the file outlives
-   whatever reads it today, so it describes the repo and its reasons, never
-   the reader's quirks.
+   blindly from a bare rule. The reason is a clause, not a paragraph, and
+   only where the bare rule would surprise. Reserve MUST/NEVER for security
+   boundaries and irreversible operations. Never write down generic best
+   practices a capable model already follows. Write for the model after
+   next: the file outlives whatever reads it today, so it describes the repo
+   and its reasons, never the reader's quirks.
 5. **Progressive disclosure.** Root file: only guidance relevant to nearly
    every task. Directory-specific guidance: native scoped instruction files.
    Repeatable procedures: repo skills. Deep reference: linked docs.
@@ -133,6 +134,10 @@ a template over an evolved document.
 - Read [references/agents-md-template.md](references/agents-md-template.md)
   before writing the root file — section skeleton, adapter mechanics, and
   working-agreements guidance live there.
+- **Reference card, not essay.** The root file is commands, rules, paths,
+  and links, one line each. No sentence that introduces a section, comments
+  on the file itself, or would be true in any repo — the template's
+  explanatory text is for you, not for the output.
 - **Preserve a working canonical convention.** For a new cross-tool setup:
   canonical `AGENTS.md` with thin native adapters only for tools actually in
   use (for Claude, a symlink or real `@AGENTS.md` import — an ordinary
@@ -166,6 +171,9 @@ a template over an evolved document.
   loads the intended guidance per that tool's native behavior.
 - No fact lives in two places: search the doc set for setup commands and key
   terms to catch duplication you introduced.
+- Read the root file as a stranger to this skill: every sentence names
+  something specific to this repo. Framing prose, meta-commentary, and
+  template rationale get cut before the summary.
 - The always-loaded file stays small: aim under ~150 lines. Past ~300,
   move content to earned docs or skills rather than compressing prose into
   unreadability.

@@ -8,9 +8,20 @@ Remember the test for every line: *could an agent derive this from the code in
 reasonable time?* If yes, cut it.
 
 Writing rules throughout: state each rule with its reason — capable models
-extrapolate correctly from a why and blindly from a bare rule. Reserve
-MUST/NEVER for security boundaries and irreversible operations. Never
-include generic best practices a capable model already follows.
+extrapolate correctly from a why and blindly from a bare rule. A reason is a
+trailing clause, not a sentence, and only where the bare rule would surprise;
+when the why is obvious, the rule stands alone. Reserve MUST/NEVER for
+security boundaries and irreversible operations. Never include generic best
+practices a capable model already follows.
+
+Register: the file is a reference card, not an essay. Its content is
+commands, rules, paths, and links — one line each, wrapped when needed. Cut
+any sentence that introduces a section, restates its heading, comments on
+the file itself ("keep this short", "this list should grow"), or would be
+equally true in another repo's file. The explanatory text in this template
+is addressed to you, the writer — it says when a section is earned and how
+to shape it; never transcribe it into the output. Where a literal form is
+shown below (intro, gotcha stub), use it as written.
 
 Write for the model after next. The file outlives whatever reads it today,
 so it describes the repo and its reasons, never the reader's quirks:
@@ -26,9 +37,10 @@ so it describes the repo and its reasons, never the reader's quirks:
   the issue or commit it came from, so a later pass can check whether the
   sharp edge is still there.
 
-Sizing: a simple repo lands around 30–60 lines with four sections (intro,
-quality gates, gotchas stub, see also). A complex multi-surface repo lands
-near 150. Past ~300, move content out rather than compressing.
+Sizing: a simple repo lands around 20–40 lines with four sections (intro,
+quality gates, gotchas stub, see also); when it runs longer, the excess is
+almost always prose, not facts. A complex multi-surface repo lands near
+150. Past ~300, move content out rather than compressing.
 
 The repo file holds team agreements only. Personal taste — package-manager
 preference, model choices, tone — belongs in each contributor's user-level
@@ -37,20 +49,22 @@ global config, where it doesn't bind everyone else's agents.
 ```markdown
 # AGENTS.md — AI Agent Contributor Guide
 
-One or two sentences: what this file covers (agent-specific context) and
-where general contributor info lives (link CONTRIBUTING.md if it exists —
-never duplicate its content here). Then the reading contract in one or two
-lines: these are good defaults, not hard rules — the developer's instructions
-override anything here, and if a rule fights the task at hand, say so and
-get sign-off before breaking it. That escape hatch is what keeps a default
-from hardening into a stale rule.
+Two lines, and no description of the project — that is README's job, so
+link it. Line one says what this file is and where the rest lives; line two
+is the reading contract, the escape hatch that keeps a default from
+hardening into a stale rule. Literal form:
+
+    How to change this repo; what it is lives in [README.md](README.md).
+    Defaults, not law: the developer's instructions win, and if a rule
+    fights the task, say so and get sign-off before breaking it.
+
+Link CONTRIBUTING.md instead when it exists; never duplicate either.
 
 ## Project Map
 
-When the structure is non-obvious, open with one paragraph on how the system
-works — the request path, the two or three key abstractions — and link the
-deep doc. A short inline summary beats a cold link in an always-loaded file.
-Skip it when the directory names tell the story.
+When the structure is non-obvious, open with at most two sentences on how
+the system works — the request path, the key abstractions — then link the
+deep doc. Skip it when the directory names tell the story.
 
 Annotated tree, ONE line per non-obvious entry, only where it materially reduces
 orientation time. Skip this section when the directory names and build files
@@ -106,13 +120,15 @@ operational constraints from the interview:
   run `flutter run` / deploys"
 
 And the project's non-negotiables: the few things never to compromise on,
-even when a task would be easier without them — each with its reason (e.g.
-"never send user data off-device — local-first is the product"). This is
-where MUST/NEVER belongs; keep the list short so it stays absolute. When
-they are product-level values rather than code rules ("open at the core",
-"performance without compromise"), give them their own short section right
-after the intro so they frame everything below; keep them here when they are
-code rules.
+even when a task would be easier without them. One line each, reason as a
+trailing clause, no elaboration of what the rule excludes:
+
+    - NEVER send user data off-device — local-first is the product.
+
+This is where MUST/NEVER belongs; keep the list short so it stays absolute.
+When they are product-level values rather than code rules ("open at the
+core", "performance without compromise"), give them their own short section
+right after the intro; keep them here when they are code rules.
 
 ## Key Patterns
 
@@ -122,8 +138,9 @@ Conventions an agent cannot infer from reading one file — the repo's grain:
 - Where each kind of change belongs ("agent-facing features go in the CLI
   crate first")
 
-3–8 patterns. Each states the rule AND the why in a sentence or two — agents
-extrapolate correctly from reasons, and blindly from bare rules.
+3–8 patterns, one line each: rule, dash, why. Agents extrapolate correctly
+from reasons and blindly from bare rules — but the why is a clause, not an
+argument.
 
 ## Common Gotchas
 
@@ -135,35 +152,34 @@ agent or human real time in this repo:
 
 Rules for this section: only add entries born from real incidents (never
 speculative "be careful with..."); state the trap, the symptom, and the
-correct move; prune entries when the underlying sharp edge is fixed. This
-section is append-mostly — tell the user it should grow over time as agents
-hit walls, and that adding to it is the repo's cheapest productivity
-investment. On a fresh repo with no incidents yet, keep the section as a
-two-line stub stating exactly that contract — the one allowed exception to
-"docs are earned", because it teaches future sessions where hard-won lessons
-belong.
+correct move; prune entries when the underlying sharp edge is fixed. On a
+fresh repo with no incidents yet, the section is exactly this stub — the one
+allowed exception to "docs are earned", because it teaches future sessions
+where hard-won lessons belong:
+
+    None yet. Add one when a trap costs real time: trap, symptom, fix, and
+    the issue it came from.
+
+Tell the user in your chat summary — not in the file — that this section
+should grow as agents hit walls, and that adding to it is the repo's
+cheapest productivity investment.
 
 ## Working Agreements
 
-Parallel agents are the norm — even one human runs several at once. The
-contract that keeps parallel work reviewable and mergeable:
+Parallel agents are the norm — even one human runs several at once — so
+this section holds the contract that keeps parallel work reviewable and
+mergeable. That framing is for you; the file lists only the agreements, one
+line each, in whatever shape was actually agreed. Typical shapes:
 
-- Commit small and often: each commit self-contained, passing the gates, and
-  reviewable on its own; the message says why, not just what.
-- Branch/PR conventions: how work is claimed and merged (e.g. one branch per
-  task, PRs reference their issue, never rewrite shared history). One concern
-  per PR — if the description needs an "also", split it.
-- Start from current main and rebase your own branch before opening a PR.
-  Parallel agents diverge, and a change built on a stale base reintroduces
-  fixed bugs or conflicts at merge. Skip when the harness gives each task a
-  fresh worktree or sandbox — the base is already current there.
-- Evidence expectations, if the team has them: e.g. UI changes carry
-  before/after screenshots, motion changes carry video.
-- Coordination rules that prevent agents stepping on each other (e.g. "check
-  for an open PR touching the same module before starting").
-- Where work artifacts go: plans, research notes, and scratch files stay
-  outside the worktree or in a gitignored directory; durable decisions go to
-  the repo's ADR location. Skip when no agent here produces plans.
+    - Small, self-contained commits that pass the gates; the message says why.
+    - One branch per task; PRs reference their issue; one concern per PR.
+    - Rebase on current main before opening a PR — stale bases reintroduce
+      fixed bugs. (Omit when the harness gives each task a fresh worktree.)
+    - Never rewrite shared history.
+    - UI changes carry before/after screenshots.
+    - Check for an open PR touching the same module before starting.
+    - Plans and scratch stay out of the tree or gitignored; decisions go to
+      `docs/decisions/`.
 
 Keep it to what was actually agreed — skip the section only when the repo
 genuinely has no conventions beyond the quality gates.

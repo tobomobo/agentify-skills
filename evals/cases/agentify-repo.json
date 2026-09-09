@@ -52,7 +52,8 @@
         "Creates no application scaffold unless it is explicitly included in the approved plan",
         "Includes only documents with substantive content",
         "Proposes compatible native root instructions only for the tools in use",
-        "Does not fabricate retrospective decisions or gotchas"
+        "Does not fabricate retrospective decisions or gotchas",
+        "Root file is a reference card: no sentence that would be true in any repo, no paragraph restating a section's purpose or commenting on the file itself"
       ]
     },
     {
